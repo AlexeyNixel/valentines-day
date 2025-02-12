@@ -16,6 +16,10 @@ const displayedText = ref('');
 
 const isTyping = ref(false);
 
+onMounted(() => {
+  handleMouseClick();
+});
+
 const typingText = () => {
   const currentWord = messages.value[currentIndex.value].text;
   const currentEvent = messages.value[currentIndex.value].conditional;

@@ -2,8 +2,12 @@ import { globalMessages } from '~/constants/global-messages';
 
 export const useMessagesStore = defineStore('messages', () => {
   const messages = ref([...globalMessages]);
-  const currentIndex = ref(34);
+  const currentIndex = ref(0);
   const currentMessage = computed(() => messages.value[currentIndex.value]);
+
+  const messagesIsMissing = computed(
+    () => messages.value.length <= currentIndex.value
+  );
 
   const clearCurrentEvent = () => {
     messages.value[currentIndex.value].conditional = null;
@@ -19,5 +23,6 @@ export const useMessagesStore = defineStore('messages', () => {
     currentMessage,
     clearCurrentEvent,
     setCurrentEvent,
+    messagesIsMissing,
   };
 });

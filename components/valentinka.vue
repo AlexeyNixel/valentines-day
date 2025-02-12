@@ -57,11 +57,7 @@ export default {
         ctx.textAlign = 'center';
         ctx.marginTop = '20px';
 
-        ctx.fillText(
-          'C праздничком, люблю тебя',
-          width / 2,
-          height / 2.2 + 400
-        );
+        ctx.fillText('С днем святого Валентина', width / 2, height / 2.2 + 400);
       };
 
       const heartPosition = (rad) => [

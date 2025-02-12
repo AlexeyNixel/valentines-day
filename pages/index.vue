@@ -1,8 +1,15 @@
 <template>
   <div class="text-white flex items-center justify-center h-full z-50">
     <div class="h-[900px] w-2/3 bg-pink-200 rounded-xl">
-      <component class="h-[80%]" :is="components[myStore.currentComponent]" />
-      <!--      <valentinka class="h-80%" />-->
+      <component
+        v-if="!messagesStore.messagesIsMissing"
+        class="h-[80%]"
+        :is="components[myStore.currentComponent]"
+      />
+      <div v-else class="h-[80%] flex items-center justify-center">
+        <my-button @click="navigateTo('/valentinka')">Продолжить</my-button>
+      </div>
+
       <div class="h-[19%] mx-2 text-black bg-white p-2 rounded-xl">
         <TypingMessages />
       </div>

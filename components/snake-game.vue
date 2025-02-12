@@ -77,7 +77,7 @@ const tileCount = 20;
 const collectedLetters = ref('');
 
 const gameRunning = ref(false);
-const score = ref(30);
+const score = ref(0);
 const gameWin = ref(false);
 const isEasterEgg = ref(false);
 const isEasterEggActivate = ref(false);
