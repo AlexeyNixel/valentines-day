@@ -1,6 +1,6 @@
 <template>
   <div class="text-white flex items-center justify-center h-full z-50">
-    <div class="h-[900px] w-2/3 bg-pink-200 rounded-xl">
+    <div class="h-full md:h-[900px] w-full md:w-2/3 bg-pink-200 rounded-xl">
       <component
         v-if="!messagesStore.messagesIsMissing"
         class="h-[80%]"
@@ -24,13 +24,14 @@ import { useMyIndexStore } from '~/stores';
 
 const myStore = useMyIndexStore();
 const messagesStore = useMessagesStore();
-const { messages } = storeToRefs(messagesStore);
+
 const components: { [key: string]: any } = ref({
   placeholder: Placeholder,
   'snake-game': SnakeGame,
   'smart-game': SmartGame,
   bonus: Bonus,
 });
+
 </script>
 
 <style></style>

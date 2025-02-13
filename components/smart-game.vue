@@ -5,16 +5,16 @@
       <div
         v-for="(card, index) in shuffledCards"
         :key="card.id"
-        class="bg-mint flex h-32 w-32 transform cursor-pointer items-center justify-center rounded-xl shadow-lg transition-all duration-300"
+        class="bg-mint flex h-16 w-16 transform cursor-pointer items-center justify-center rounded-xl shadow-lg transition-all duration-300"
         @click="flipCard(index)"
         :class="{
           'bg-pink': card.flipped || card.matched,
           'bg-love': !card.flipped && !card.matched,
         }"
       >
-        <span v-if="card.flipped || card.matched" class="text-3xl">
+        <span v-if="card.flipped || card.matched" class="w-full text-3xl">
           <img
-            class="h-32 w-full rounded-xl object-cover"
+            class="h-16 w-full rounded-xl object-cover"
             :src="card.value"
             alt=""
           />
@@ -25,22 +25,22 @@
 
     <div
       v-if="gameOver"
-      class="absolute mt-6 w-1/4 rounded-xl border-2 border-pink-300 bg-white p-4 text-center shadow"
+      class="absolute w-[90%] top-2 md:w-[500px] rounded-xl bg-white p-3 text-md text-black shadow-2xl overscroll-y-auto"
     >
-      <h1 class="mb-4 text-4xl">Поздравляю</h1>
-      <p class="mb-4 text-2xl text-black">
+      <h1 class="mb-4 text-xl font-bold">Поздравляю</h1>
+      <p class="mb-4 text-black">
         Урааа, красотка, умничка, прошла! Я в шоке, что ты смогла! Ты просто
         гений! ✨💖
       </p>
-      <p class="mb-4 text-2xl text-black">
+      <p class="mb-4 text-black">
         Если с памятью у тебя всё в порядке, почему ты так часто забываешь, что
         мне обещаешь, а? 🥺💖
       </p>
-      <p class="mb-4 text-2xl text-black">
+      <p class="mb-4 text-black">
         Дальше конец, там ничего грандиозного нет, просто то, на что я потратил
         всю ночь. Надеюсь, тебе понравится то, над чем я так старался! 🥺💖
       </p>
-      <p class="mt-2 text-lg text-white">Ты нашел все пары!</p>
+      <p class="mt-2 text-white">Ты нашел все пары!</p>
       <div class="flex justify-between">
         <my-button class="font-[Inter]" @click="startNewGame">
           Играть еще

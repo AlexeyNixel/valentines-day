@@ -1,62 +1,89 @@
 <template>
   <div class="flex flex-col items-center justify-center font-[Montserrat]">
-    <h1 class="mb-4 text-4xl font-bold text-pink-800">
+    <h1 class="mb-4 text-2xl md:text-4xl font-bold text-pink-800">
       С днем святого Валентина!
     </h1>
     <canvas ref="canvas" class="relative border-2 border-pink-300"></canvas>
+
+    Модальное окно
     <div
-      class="absolute w-[500px] rounded-xl bg-white p-3 text-xl text-black shadow-2xl"
+      class="absolute w-[90%] top-2 md:w-[500px] rounded-xl bg-white p-3 text-md text-black shadow-2xl overscroll-y-auto"
       v-if="!gameRunning"
     >
+      <!--      Игра не пройдена-->
       <div v-if="!gameWin">
-        <h1 class="text-2xl text-center mb-4">Условия:</h1>
-        <p class="mb-4">Собери <b>30</b> сердец что бы пройти дальше.</p>
-        <p class="mb-4">
-          Соберешь <b>50</b> будет <b>бонус</b>, но на многое не расчитывай, не
+        <h1 class="text-center mb-4 text-xl font-bold">Условия</h1>
+        <p class="mb-3">Собери <b>30</b> сердец что бы пройти дальше.</p>
+        <p class="mb-3">
+          Соберешь <b>50</b> будет <b>бонус</b>, но на многое не рассчитывай, не
           можешь набрать пиши мне, скажу как взломать
         </p>
       </div>
 
+      <!--Игра пройдена 30 очков-->
       <div v-if="gameWin">
-        <h1 class="text-2xl text-center mb-4">Поздравляю</h1>
-        <p class="mb-4">
+        <h1 class="text-center mb-2 text-xl font-bold">Поздравляю</h1>
+        <p class="mb-3">
           Молодец, умничка! Пальчики, видимо, часто разминаешь. Как ты это
           делаешь, меня не интересует... Ладно, интересует, но не будем об этом.
         </p>
-        <p class="mb-4" v-if="!isEasterEgg">
+        <p class="mb-3" v-if="!isEasterEgg">
           Наберешь <b>50</b> очков получишь доступ к <b>бонусу</b> но все не так
           просто.
         </p>
       </div>
 
+      <!--Игра пройдена 50 очков-->
       <div v-if="isEasterEgg">
-        <p class="mb-4">
+        <p class="mb-3">
           Ты смогла, я тебя поздравляю, рад что ты захотела попасть в секретную
           локацию.
         </p>
-        <p class="mb-4">Что бы туда попасть неоходимо ввести пароль.</p>
+        <p class="mb-3">Что бы туда попасть необходимо ввести пароль.</p>
         <p class="mb-4 text-md text-orange-500">
           пароль для активации бонуса найдешь в телеграме 4 февраля 2025 года в
           2:44
         </p>
-        <input
-          class="mb-7 rounded-xl border-2 border-red-400 p-2 text-lg"
-          type="password"
-          placeholder="Введи пароль"
-          v-model="password"
+        <UInput
           @keydown.enter="handleActivateEasterEgg"
+          class="w-full mb-4"
+          placeholder="Ввести пароль"
+          v-model="password"
+          color="error"
         />
-        <p v-if="myStore.isBonus" class="text-green-500">Бонус активирован</p>
+        <p v-if="myStore.isBonus" class="mb-4 text-green-500">
+          Бонус активирован
+        </p>
       </div>
 
-      <div class="flex justify-between">
-        <my-button @click="startGame"> Начать игру </my-button>
-        <my-button v-if="gameWin" @click="handleNextPage">Продолжить</my-button>
-        <my-button v-if="isEasterEggActivate" @click="handleActivateBonusPage">
+      <div class="">
+        <div class="flex justify-between mb-2">
+          <UButton
+            color="success"
+            class="justify-center w-full rounded-xl"
+            @click="startGame"
+            >Новая игра</UButton
+          >
+          <UButton
+            v-if="gameWin"
+            color="success"
+            class="justify-center w-full rounded-xl ml-2"
+            @click="handleNextPage"
+            >Продолжить</UButton
+          >
+        </div>
+
+        <UButton
+          color="error"
+          class="justify-center w-full rounded-xl"
+          @click="handleActivateBonusPage"
+          v-if="isEasterEggActivate"
+        >
           Активировать бонус
-        </my-button>
+        </UButton>
       </div>
     </div>
+
     <div class="mt-4 text-xl text-pink-800">
       <span class="font-bold"> Собранные сердца: {{ score }}</span>
     </div>
@@ -64,26 +91,24 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import MyButton from '~/components/my-button.vue';
-
 const canvas = ref(null);
 const ctx = ref(null);
 const snake = ref([{ x: 10, y: 10 }]);
 const direction = ref({ x: 1, y: 0 });
 const food = ref({ x: 5, y: 5 });
 const gridSize = 20;
-const tileCount = 20;
+const tileCount = 16;
 const collectedLetters = ref('');
 
 const gameRunning = ref(false);
-const score = ref(0);
+const score = ref(50);
 const gameWin = ref(false);
 const isEasterEgg = ref(false);
 const isEasterEggActivate = ref(false);
 
 const myStore = useMyIndexStore();
 const messageStore = useMessagesStore();
+const toast = useToast();
 
 const password = ref('');
 
@@ -134,6 +159,7 @@ const update = () => {
     collision(head, snake.value)
   ) {
     gameRunning.value = false;
+    // modal(ModalSnake);
     gameWin.value = score.value >= 30;
     isEasterEgg.value = score.value >= 50;
     myStore.isSnake = score.value >= 30;
@@ -147,6 +173,14 @@ const update = () => {
   if (head.x === food.value.x && head.y === food.value.y) {
     score.value++;
     placeFood(); // Появляется новая еда
+
+    if (score.value === 30) {
+      toast.add({ title: 'Ура ты собрала 30 сердец, осталось еще 20' });
+    } else if (score.value === 50) {
+      toast.add({
+        title: 'Ну красотка, можешь играть пока не умрешь, либо соверши суицид',
+      });
+    }
   } else {
     snake.value.pop(); // Удаляем хвост, если не съели еду
   }

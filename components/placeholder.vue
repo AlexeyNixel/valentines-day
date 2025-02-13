@@ -1,6 +1,6 @@
 <template>
   <div
-    class="text-[300px] h-[80%] flex items-center justify-center select-none"
+    class="text-[35vw] md:text-[300px] h-[80%] flex items-center justify-center select-none"
   >
     {{
       messagesStore.currentMessage.emotions

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <canvas id="heart"></canvas>
+    <canvas class="w-full h-full" id="heart"></canvas>
   </div>
 </template>
 
