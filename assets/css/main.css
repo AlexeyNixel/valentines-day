@@ -7,3 +7,9 @@
     font-family: 'Pacifico';
     src: url('~/assets/fonts/Pacifico-Regular.ttf') format('opentype');
 }
+
+@media (max-width: 767px) {
+    body {
+        position:fixed;
+    }
+}
