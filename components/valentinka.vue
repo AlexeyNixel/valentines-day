@@ -188,7 +188,7 @@ export default {
       let { width, height } = resizeCanvas(canvas, ctx, koef);
       const rand = Math.random;
 
-      const traceCount = mobile ? 50 : 50;
+      const traceCount = mobile ? 250 : 80;
       const pointsOrigin = [];
       const dr = mobile ? 0.3 : 0.1;
       for (let i = 0; i < Math.PI * 2; i += dr)
