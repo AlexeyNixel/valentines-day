@@ -1,11 +1,13 @@
 <template>
   <div class="relative flex flex-col items-center justify-center p-4">
-    <p class="mb-5 text-4xl">Я думаю смысл игры понятен найди одинаковые</p>
+    <p class="mb-5 text-black font-[Pacifico] text-2xl text-center md:text-4xl">
+      Я думаю смысл игры понятен найди одинаковые
+    </p>
     <div class="grid max-w-4xl grid-cols-4 gap-4">
       <div
         v-for="(card, index) in shuffledCards"
         :key="card.id"
-        class="bg-mint flex h-16 w-16 transform cursor-pointer items-center justify-center rounded-xl shadow-lg transition-all duration-300"
+        class="bg-mint flex h-16 w-16 sm:h-20 sm:w-20 md:h-28 md:w-28 lg:h-32 lg:w-32 transform cursor-pointer items-center justify-center rounded-xl shadow-lg transition-all duration-300"
         @click="flipCard(index)"
         :class="{
           'bg-pink': card.flipped || card.matched,
@@ -14,7 +16,7 @@
       >
         <span v-if="card.flipped || card.matched" class="w-full text-3xl">
           <img
-            class="h-16 w-full rounded-xl object-cover"
+            class="h-16 md:h-32 w-full rounded-xl object-cover"
             :src="card.value"
             alt=""
           />

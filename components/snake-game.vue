@@ -1,21 +1,22 @@
 <template>
-  <div class="flex flex-col items-center justify-center font-[Montserrat]">
+  <div
+    class="select-none flex flex-col items-center justify-center font-[Montserrat]"
+  >
     <h1 class="mb-4 text-2xl md:text-4xl font-bold text-pink-800">
       С днем святого Валентина!
     </h1>
     <canvas ref="canvas" class="relative border-2 border-pink-300"></canvas>
 
-    Модальное окно
     <div
-      class="absolute w-[90%] top-2 md:w-[500px] rounded-xl bg-white p-3 text-md text-black shadow-2xl overscroll-y-auto"
+      class="absolute w-[90%] top-2 md:top-auto md:w-[500px] rounded-xl bg-white p-3 text-md text-black shadow-2xl overscroll-y-auto"
       v-if="!gameRunning"
     >
       <!--      Игра не пройдена-->
       <div v-if="!gameWin">
         <h1 class="text-center mb-4 text-xl font-bold">Условия</h1>
-        <p class="mb-3">Собери <b>30</b> сердец что бы пройти дальше.</p>
+        <p class="mb-3">Собери <b>20</b> сердец что бы пройти дальше.</p>
         <p class="mb-3">
-          Соберешь <b>50</b> будет <b>бонус</b>, но на многое не рассчитывай, не
+          Соберешь <b>30</b> будет <b>бонус</b>, но на многое не рассчитывай, не
           можешь набрать пиши мне, скажу как взломать
         </p>
       </div>
@@ -94,11 +95,15 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 const canvas = ref(null);
 const ctx = ref(null);
-const snake = ref([{ x: 10, y: 10 }]);
+const snake = ref([
+  { x: 3, y: 2 },
+  { x: 2, y: 2 },
+  { x: 1, y: 2 },
+]);
 const direction = ref({ x: 1, y: 0 });
 const food = ref({ x: 5, y: 5 });
-const gridSize = 20;
-const tileCount = 20;
+const gridSize = 26;
+const tileCount = 12;
 const collectedLetters = ref('');
 
 const gameRunning = ref(false);
@@ -119,7 +124,11 @@ const startGame = () => {
 };
 
 const resetGame = () => {
-  snake.value = [{ x: 10, y: 10 }];
+  snake.value = [
+    { x: 3, y: 2 },
+    { x: 2, y: 2 },
+    { x: 1, y: 2 },
+  ];
   gameWin.value = false;
   direction.value = { x: 1, y: 0 };
   collectedLetters.value = '';
@@ -140,7 +149,7 @@ const gameLoop = () => {
   draw();
 
   // Сделаем скорость игры плавной, уменьшив задержку
-  setTimeout(() => gameLoop(), 120); // Уменьшено с 100 до 75 для плавности
+  setTimeout(() => gameLoop(), 150); // Уменьшено с 100 до 75 для плавности
 };
 
 const update = () => {
@@ -159,9 +168,9 @@ const update = () => {
     collision(head, snake.value)
   ) {
     gameRunning.value = false;
-    gameWin.value = score.value >= 30;
-    isEasterEgg.value = score.value >= 50;
-    myStore.isSnake = score.value >= 30;
+    gameWin.value = score.value >= 20;
+    isEasterEgg.value = score.value >= 30;
+    myStore.isSnake = score.value >= 20;
     score.value = 0;
     return;
   }

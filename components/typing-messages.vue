@@ -1,5 +1,8 @@
 <template>
-  <div class="font-[Pacifico] text-xl md:text-2xl w-full h-full" @click="handleMouseClick">
+  <div
+    class="font-[Pacifico] text-xl md:text-2xl w-full h-full select-none"
+    @click="handleMouseClick"
+  >
     Лёша: {{ displayedText }}
   </div>
 </template>
