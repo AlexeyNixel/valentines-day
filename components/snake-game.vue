@@ -92,8 +92,6 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue';
-import MyButton from '~/components/my-button.vue';
-
 const canvas = ref(null);
 const ctx = ref(null);
 const snake = ref([{ x: 10, y: 10 }]);
@@ -164,6 +162,7 @@ const update = () => {
     gameWin.value = score.value >= 30;
     isEasterEgg.value = score.value >= 50;
     myStore.isSnake = score.value >= 30;
+    score.value = 0;
     return;
   }
 
