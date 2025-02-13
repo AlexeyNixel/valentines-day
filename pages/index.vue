@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Bonus, Placeholder, SmartGame, SnakeGame } from '#components';
+import {Bonus, MessageMe, Placeholder, SmartGame, SnakeGame} from '#components';
 import Valentinka from '~/components/valentinka.vue';
 import { useMyIndexStore } from '~/stores';
 
@@ -30,6 +30,7 @@ const components: { [key: string]: any } = ref({
   'snake-game': SnakeGame,
   'smart-game': SmartGame,
   bonus: Bonus,
+  'message-me': MessageMe
 });
 </script>
 
