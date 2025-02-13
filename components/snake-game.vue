@@ -14,9 +14,9 @@
       <!--      Игра не пройдена-->
       <div v-if="!gameWin">
         <h1 class="text-center mb-4 text-xl font-bold">Условия</h1>
-        <p class="mb-3">Собери <b>20</b> сердец что бы пройти дальше.</p>
+        <p class="mb-3">Собери <b>10</b> сердец что бы пройти дальше.</p>
         <p class="mb-3">
-          Соберешь <b>30</b> будет <b>бонус</b>, но на многое не рассчитывай, не
+          Соберешь <b>20</b> будет <b>бонус</b>, но на многое не рассчитывай, не
           можешь набрать пиши мне, скажу как взломать
         </p>
       </div>
@@ -29,7 +29,7 @@
           делаешь, меня не интересует... Ладно, интересует, но не будем об этом.
         </p>
         <p class="mb-3" v-if="!isEasterEgg">
-          Наберешь <b>50</b> очков получишь доступ к <b>бонусу</b> но все не так
+          Наберешь <b>20</b> очков получишь доступ к <b>бонусу</b> но все не так
           просто.
         </p>
       </div>
@@ -168,9 +168,9 @@ const update = () => {
     collision(head, snake.value)
   ) {
     gameRunning.value = false;
-    gameWin.value = score.value >= 20;
-    isEasterEgg.value = score.value >= 30;
-    myStore.isSnake = score.value >= 20;
+    gameWin.value = score.value >= 10;
+    isEasterEgg.value = score.value >= 20;
+    myStore.isSnake = score.value >= 10;
     score.value = 0;
     return;
   }

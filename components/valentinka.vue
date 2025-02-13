@@ -76,8 +76,10 @@ export default {
       ];
 
       const resizeCanvas = (canvas, ctx, koef) => {
-        const width = (canvas.width = koef * window.innerWidth);
-        const height = (canvas.height = koef * window.innerHeight);
+        const width = (canvas.width =
+          koef * window.innerWidth * window.devicePixelRatio);
+        const height = (canvas.height =
+          koef * window.innerHeight * window.devicePixelRatio);
         ctx.fillStyle = 'rgba(0,0,0,1)';
         ctx.fillRect(0, 0, width, height);
         return { width, height };
@@ -186,7 +188,7 @@ export default {
       let { width, height } = resizeCanvas(canvas, ctx, koef);
       const rand = Math.random;
 
-      const traceCount = mobile ? 20 : 50;
+      const traceCount = mobile ? 50 : 50;
       const pointsOrigin = [];
       const dr = mobile ? 0.3 : 0.1;
       for (let i = 0; i < Math.PI * 2; i += dr)
@@ -217,5 +219,10 @@ export default {
 </script>
 
 <style scoped>
-/* Добавьте стили для вашего компонента, если нужно */
+/* Убедитесь, что canvas правильно отображается на мобильных устройствах */
+canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
 </style>

@@ -6,4 +6,7 @@
   </UApp>
 </template>
 <script setup lang="ts">
+useHead({
+  title: 'С днем святого Валентина',
+});
 </script>

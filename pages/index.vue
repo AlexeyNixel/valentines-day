@@ -31,7 +31,6 @@ const components: { [key: string]: any } = ref({
   'smart-game': SmartGame,
   bonus: Bonus,
 });
-
 </script>
 
 <style></style>
