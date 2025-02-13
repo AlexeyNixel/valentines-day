@@ -91,24 +91,26 @@
 </template>
 
 <script setup>
+import { ref, onMounted, onBeforeUnmount } from 'vue';
+import MyButton from '~/components/my-button.vue';
+
 const canvas = ref(null);
 const ctx = ref(null);
 const snake = ref([{ x: 10, y: 10 }]);
 const direction = ref({ x: 1, y: 0 });
 const food = ref({ x: 5, y: 5 });
 const gridSize = 20;
-const tileCount = 16;
+const tileCount = 20;
 const collectedLetters = ref('');
 
 const gameRunning = ref(false);
-const score = ref(50);
+const score = ref(0);
 const gameWin = ref(false);
 const isEasterEgg = ref(false);
 const isEasterEggActivate = ref(false);
 
 const myStore = useMyIndexStore();
 const messageStore = useMessagesStore();
-const toast = useToast();
 
 const password = ref('');
 
@@ -159,7 +161,6 @@ const update = () => {
     collision(head, snake.value)
   ) {
     gameRunning.value = false;
-    // modal(ModalSnake);
     gameWin.value = score.value >= 30;
     isEasterEgg.value = score.value >= 50;
     myStore.isSnake = score.value >= 30;
@@ -173,14 +174,6 @@ const update = () => {
   if (head.x === food.value.x && head.y === food.value.y) {
     score.value++;
     placeFood(); // Появляется новая еда
-
-    if (score.value === 30) {
-      toast.add({ title: 'Ура ты собрала 30 сердец, осталось еще 20' });
-    } else if (score.value === 50) {
-      toast.add({
-        title: 'Ну красотка, можешь играть пока не умрешь, либо соверши суицид',
-      });
-    }
   } else {
     snake.value.pop(); // Удаляем хвост, если не съели еду
   }
@@ -263,6 +256,44 @@ const collision = (head, array) => {
   return array.some((part) => part.x === head.x && part.y === head.y);
 };
 
+// Обработка свайпов
+let startX = 0;
+let startY = 0;
+
+const handleTouchStart = (e) => {
+  const touch = e.touches[0];
+  startX = touch.clientX;
+  startY = touch.clientY;
+};
+
+const handleTouchMove = (e) => {
+  e.preventDefault(); // Чтобы не скроллился экран
+};
+
+const handleTouchEnd = (e) => {
+  const touch = e.changedTouches[0];
+  const endX = touch.clientX;
+  const endY = touch.clientY;
+
+  const diffX = endX - startX;
+  const diffY = endY - startY;
+
+  // Определение направления свайпа
+  if (Math.abs(diffX) > Math.abs(diffY)) {
+    if (diffX > 0) {
+      if (direction.value.x === 0) direction.value = { x: 1, y: 0 }; // Вправо
+    } else {
+      if (direction.value.x === 0) direction.value = { x: -1, y: 0 }; // Влево
+    }
+  } else {
+    if (diffY > 0) {
+      if (direction.value.y === 0) direction.value = { x: 0, y: 1 }; // Вниз
+    } else {
+      if (direction.value.y === 0) direction.value = { x: 0, y: -1 }; // Вверх
+    }
+  }
+};
+
 onMounted(() => {
   ctx.value = canvas.value.getContext('2d');
   canvas.value.width = gridSize * tileCount;
@@ -284,6 +315,20 @@ onMounted(() => {
         break;
     }
   });
+
+  // Добавление обработчиков для мобильных устройств
+  canvas.value.addEventListener('touchstart', handleTouchStart);
+  canvas.value.addEventListener('touchmove', handleTouchMove, {
+    passive: false,
+  });
+  canvas.value.addEventListener('touchend', handleTouchEnd);
+});
+
+onBeforeUnmount(() => {
+  // Удаляем обработчики событий при размонтировании компонента
+  canvas.value.removeEventListener('touchstart', handleTouchStart);
+  canvas.value.removeEventListener('touchmove', handleTouchMove);
+  canvas.value.removeEventListener('touchend', handleTouchEnd);
 });
 </script>
 
