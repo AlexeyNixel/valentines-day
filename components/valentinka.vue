@@ -182,7 +182,7 @@ export default {
       if (loaded) return;
       loaded = true;
       const mobile = window.isDevice;
-      const koef = mobile ? 0.5 : 1;
+      const koef = mobile ? 1.1 : 1;
       const canvas = document.getElementById('heart');
       const ctx = canvas.getContext('2d');
       let { width, height } = resizeCanvas(canvas, ctx, koef);
