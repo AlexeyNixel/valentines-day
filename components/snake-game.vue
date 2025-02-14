@@ -14,6 +14,8 @@
       <!--      Игра не пройдена-->
       <div v-if="!gameWin">
         <h1 class="text-center mb-4 text-xl font-bold">Условия</h1>
+        <p class="mb-3">Управление на стрелочки.</p>
+        <p class="mb-3">С телефона свайпы</p>
         <p class="mb-3">Собери <b>10</b> сердец что бы пройти дальше.</p>
         <p class="mb-3">
           Соберешь <b>20</b> будет <b>бонус</b>, но на многое не рассчитывай, не
@@ -45,13 +47,18 @@
           пароль для активации бонуса найдешь в телеграме 4 февраля 2025 года в
           2:44
         </p>
-        <UInput
-          @keydown.enter="handleActivateEasterEgg"
-          class="w-full mb-4"
-          placeholder="Ввести пароль"
-          v-model="password"
-          color="error"
-        />
+        <div class="flex">
+          <UInput
+              @keydown.enter="handleActivateEasterEgg"
+              class="w-full mb-4"
+              placeholder="Ввести пароль"
+              v-model="password"
+              color="error"
+          />
+          <UButton @click="handleActivateEasterEgg" class="h-full ml-2">
+            OK
+          </UButton>
+        </div>
         <p v-if="myStore.isBonus" class="mb-4 text-green-500">
           Бонус активирован
         </p>
@@ -70,7 +77,9 @@
             color="success"
             class="justify-center w-full rounded-xl ml-2"
             @click="handleNextPage"
-            >Продолжить</UButton
+            >
+            Продолжить {{myStore.isBonus? "":"без бонуса"}}
+          </UButton
           >
         </div>
 
@@ -107,7 +116,7 @@ const tileCount = 12;
 const collectedLetters = ref('');
 
 const gameRunning = ref(false);
-const score = ref(0);
+const score = ref(20);
 const gameWin = ref(false);
 const isEasterEgg = ref(false);
 const isEasterEggActivate = ref(false);

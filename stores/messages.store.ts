@@ -2,7 +2,7 @@ import { globalMessages } from '~/constants/global-messages';
 
 export const useMessagesStore = defineStore('messages', () => {
   const messages = ref([...globalMessages]);
-  const currentIndex = ref(0);
+  const currentIndex = ref(34);
   const currentMessage = computed(() => messages.value[currentIndex.value]);
 
   const messagesIsMissing = computed(
